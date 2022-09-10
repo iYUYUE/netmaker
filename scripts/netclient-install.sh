@@ -146,6 +146,9 @@ case $(uname | tr A-Z a-z) in
             mipsle)
                 dist=netclient-mipsle
 			;;
+			mips)
+                dist=netclient-mips
+			;;
 			*)
 				fatal "$CPU_ARCH : cpu architecture not supported"
     		esac
@@ -187,7 +190,7 @@ esac
 
 echo "Binary = $dist"
 
-url="https://github.com/gravitl/netmaker/releases/download/$VERSION/$dist"
+url="https://github.com/iYUYUE/netmaker/releases/download/$VERSION/$dist"
 curl_opts='-nv'
 if [ "${OS}" = "OpenWRT" ]; then
 	curl_opts='-q'
@@ -198,7 +201,7 @@ if curl --output /dev/null --silent --head --fail "$url"; then
 	wget $curl_opts -O netclient $url
 else
 	echo "Downloading $dist latest"
-	wget $curl_opts -O netclient https://github.com/gravitl/netmaker/releases/latest/download/$dist
+	wget $curl_opts -O netclient https://github.com/iYUYUE/netmaker/releases/latest/download/$dist
 fi
 
 chmod +x netclient
