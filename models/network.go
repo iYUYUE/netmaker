@@ -15,7 +15,7 @@ type Network struct {
 	NodesLastModified   int64                 `json:"nodeslastmodified" bson:"nodeslastmodified"`
 	NetworkLastModified int64                 `json:"networklastmodified" bson:"networklastmodified"`
 	DefaultInterface    string                `json:"defaultinterface" bson:"defaultinterface" validate:"min=1,max=15"`
-	DefaultListenPort   int32                 `json:"defaultlistenport,omitempty" bson:"defaultlistenport,omitempty" validate:"omitempty,min=1024,max=65535"`
+	DefaultListenPort   int32                 `json:"defaultlistenport,omitempty" bson:"defaultlistenport,omitempty" validate:"omitempty,min=0,max=65535"`
 	NodeLimit           int32                 `json:"nodelimit" bson:"nodelimit"`
 	DefaultPostUp       string                `json:"defaultpostup" bson:"defaultpostup"`
 	DefaultPostDown     string                `json:"defaultpostdown" bson:"defaultpostdown"`
