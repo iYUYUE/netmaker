@@ -230,50 +230,7 @@ fi
 
 if [ "${OS}" = "OpenWRT" ]; then
 	mv ./netclient /sbin/netclient
-	cat << 'END_OF_FILE' > ./netclient.service.tmp
-#!/bin/sh /etc/rc.common
-
-EXTRA_COMMANDS="status"
-EXTRA_HELP="        status      Check service is running"
-START=99
-
-LOG_FILE="/tmp/netclient.logs"
-
-start() {
-  if [ ! -f "${LOG_FILE}" ];then
-      touch "${LOG_FILE}"
-  fi
-  local PID=$(ps|grep "netclient daemon"|grep -v grep|awk '{print $1}')
-  if [ "${PID}" ];then
-    echo "service is running"
-    return
-  fi
-  bash -c "do /sbin/netclient daemon  >> ${LOG_FILE} 2>&1;\
-           if [ $(ls -l ${LOG_FILE}|awk '{print $5}') -gt 10240000 ];then tar zcf "${LOG_FILE}.tar" -C / "tmp/netclient.logs"  && > $LOG_FILE;fi;done &"
-  echo "start"
-}
-
-stop() {
-  pids=$(ps|grep "netclient daemon"|grep -v grep|awk '{print $1}')
-  for i in "${pids[@]}"
-  do
-	if [ "${i}" ];then
-		kill "${i}"
-	fi
-  done
-  echo "stop"
-}
-
-status() {
-  local PID=$(ps|grep "netclient daemon"|grep -v grep|awk '{print $1}')
-  if [ "${PID}" ];then
-    echo -e "netclient[${PID}] is running \n"
-  else
-    echo -e "netclient is not running \n"
-  fi
-}
-
-END_OF_FILE
+	wget $curl_opts -O netclient.service.tmp https://raw.githubusercontent.com/iYUYUE/netmaker/master/scripts/openwrt-daemon.sh
 	mv ./netclient.service.tmp /etc/init.d/netclient
 	chmod +x /etc/init.d/netclient
 	/etc/init.d/netclient enable
